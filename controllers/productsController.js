@@ -2,6 +2,7 @@ const express = require('express')
 //const products = require('../data/stimulated_database')
 const productSchemas = require('../schemas/productSchemas')
 const controller = express.Router()
+const { authorize } = require('../middlewares/authorization')
 //let products = require('../data/stimulated_database')
 
 
@@ -104,7 +105,7 @@ controller.route('/').get(async (req, res) => { //hämtar ALLA produkter
 
 
 // secured routes - kan endast nås av personer som är tex inloggade 
-controller.route('/').post(async (req, res) => { // går till products routern för att posta en ny produkt
+controller.route('/').post(authorize, async (req, res) => { // går till products routern för att posta en ny produkt
     const { name, description, price, category, tag, imageName, rating } = req.body // body är vår produkt med all information
 
     if (!name || ! price)
@@ -131,7 +132,7 @@ controller.route('/').post(async (req, res) => { // går till products routern f
 
 })
 
-controller.route('/:articleNumber').delete(async (req, res) => { // går till products routern för att deleta en produkt genom artikelnummer
+controller.route('/:articleNumber').delete(authorize, async (req, res) => { // går till products routern för att deleta en produkt genom artikelnummer
     if(!req.params.articleNumber)
         res.status(400).json('please enter an article number')
     else {
@@ -147,7 +148,7 @@ controller.route('/:articleNumber').delete(async (req, res) => { // går till pr
     }
 })
 
-controller.route('/:articleNumber').put(async (req, res) => {
+controller.route('/:articleNumber').put(authorize, async (req, res) => {
     const { articleNumber, name, description, price, category, tag, imageName, rating } = req.body
     const updatedProduct = ({ articleNumber, name, description, price, category, tag, imageName, rating })
 // const updatedProduct = await productSchemas.findByIdAndUpdate(req.params.articleNumber, updatedProduct, { new: true }) //en kod joakim brukar använda sig av, prova om tid finns
