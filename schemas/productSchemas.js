@@ -4,11 +4,12 @@ const productSchema = mongoose.Schema({
     id: {type: mongoose.Schema.Types.ObjectId},
     name: {type: mongoose.Schema.Types.String, required: true},
     description: {type: String},
-    price: {type: Number, required: true},
+    price: {type: String, required: true}, //ska ändras till en string istället för att användas med graphql
     category: {type: String},
     tag: {type: String},
-    rating: {type: Number},
-    imageName: {type: String}
+    rating: {type: String},
+    imageName: {type: String},
+    vendorId: { type: mongoose.Schema.Types.String, required: true }
 })
 
-module.exports = mongoose.model("products", productSchema) //inom "" är den collection som man går till, man kan ha flera st tex users men just nu ska den gå till products
+module.exports = mongoose.model("Product", productSchema) //inom "" är den collection som man går till, man kan ha flera st tex users men just nu ska den gå till products

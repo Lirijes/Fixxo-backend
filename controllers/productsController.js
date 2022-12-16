@@ -3,7 +3,6 @@ const express = require('express')
 const productSchemas = require('../schemas/productSchemas')
 const controller = express.Router()
 const { authorize } = require('../middlewares/authorization')
-//let products = require('../data/stimulated_database')
 
 
 // nedan är kopplat till stimulated_database
@@ -108,7 +107,7 @@ controller.route('/').get(async (req, res) => { //hämtar ALLA produkter
 controller.route('/').post(authorize, async (req, res) => { // går till products routern för att posta en ny produkt
     const { name, description, price, category, tag, imageName, rating } = req.body // body är vår produkt med all information
 
-    if (!name || ! price)
+    if (!name || !price)
         res.status(400).json({text: 'name and price is required.'})
 
     const itemExists = await productSchemas.findOne({name}) //här kontrollerar vi om en produkt redan finns genom namnet
